@@ -189,10 +189,15 @@ ul{list-style:none}
 
 /* ===== Sections common ===== */
 .section{padding:96px 0}
-.section.tinted{background:var(--cream)}
+.section.tinted{background:radial-gradient(1000px 640px at 0% 100%,rgba(30,82,64,.05),transparent 55%),var(--cream)}
 .section.dark{background:linear-gradient(180deg,var(--green-950),var(--green-900));color:#fff}
+#reasons{position:relative;background:radial-gradient(1100px 720px at 100% 4%,rgba(30,82,64,.055),transparent 55%),linear-gradient(180deg,#fff,#FCFBF8)}
 .sec-head{text-align:center;max-width:780px;margin:0 auto 56px}
-.sec-eyebrow{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
+.sec-eyebrow{display:flex;align-items:center;justify-content:center;gap:13px;margin-bottom:14px}
+.sec-eyebrow::before,.sec-eyebrow::after{content:"";width:42px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.sec-eyebrow::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.dark .sec-eyebrow::before,.dark .sec-eyebrow::after{background:linear-gradient(90deg,transparent,var(--gold-light))}
+.dark .sec-eyebrow::after{background:linear-gradient(90deg,var(--gold-light),transparent)}
 .sec-eyebrow .ring-dot{width:12px;height:12px}
 .sec-eyebrow span{font-family:var(--font-serif);font-style:italic;font-size:19px;letter-spacing:.05em;color:var(--gold-deep)}
 .dark .sec-eyebrow span{color:var(--gold-light)}
@@ -246,9 +251,13 @@ ul{list-style:none}
 .reason ul{margin-top:18px;display:grid;gap:10px}
 .reason li{display:flex;gap:10px;font-size:14.5px;font-weight:500}
 .reason li::before{content:"";flex:0 0 20px;height:20px;margin-top:4px;border-radius:50%;background:var(--green-900) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23E6D3AC" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') center/11px no-repeat}
-.reason-visual{position:relative}
-.reason-visual .mock-window{transition:transform .45s var(--ease),box-shadow .45s}
-.reason-visual:hover .mock-window{transform:translateY(-6px) scale(1.012);box-shadow:0 6px 14px rgba(11,36,28,.08),0 28px 60px rgba(11,36,28,.14)}
+.reason-visual{position:relative;padding:30px;border-radius:26px;overflow:hidden;
+  background:radial-gradient(130% 100% at 85% -10%,rgba(230,211,172,.18),transparent 55%),linear-gradient(155deg,var(--green-950),var(--green-800) 60%,#1C5240);
+  box-shadow:0 34px 80px rgba(11,36,28,.34)}
+.reason-visual::before{content:"";position:absolute;inset:15px;border-radius:18px;border:1px solid rgba(230,211,172,.45);pointer-events:none;z-index:3}
+.reason-visual::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;border:1.5px dashed rgba(230,211,172,.28);top:-46px;right:-46px;pointer-events:none;animation:spin 26s linear infinite}
+.reason-visual .mock-window{position:relative;z-index:2;border:1px solid rgba(255,255,255,.7);box-shadow:0 12px 34px rgba(0,0,0,.28);transition:transform .45s var(--ease),box-shadow .45s}
+.reason-visual:hover .mock-window{transform:translateY(-6px) scale(1.012);box-shadow:0 22px 54px rgba(0,0,0,.4)}
 .mini{padding:18px;background:#FBFBF9}
 .mini-table{width:100%;border-collapse:collapse;font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .mini-table caption{caption-side:top;text-align:left;font-weight:900;font-size:12px;padding:0 2px 8px;color:var(--green-950)}
@@ -420,28 +429,35 @@ ul{list-style:none}
 .wave i:nth-child(2){animation-delay:.12s}.wave i:nth-child(3){animation-delay:.24s}.wave i:nth-child(4){animation-delay:.36s}.wave i:nth-child(5){animation-delay:.48s}.wave i:nth-child(6){animation-delay:.6s}.wave i:nth-child(7){animation-delay:.72s}
 @keyframes wv{0%,100%{height:5px}50%{height:15px}}
 
-/* ===== Partner band ===== */
-.partner{padding:64px 0;background:#fff;border-bottom:1px solid var(--line)}
-.partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1120px;margin:0 auto}
-.partner-card{display:flex;align-items:center;gap:22px;border:1px solid var(--line);border-radius:16px;padding:28px 30px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s;text-decoration:none;color:inherit}
+/* ===== Partner band (premium) ===== */
+.partner{position:relative;overflow:hidden;padding:100px 0;color:#fff;
+  background:radial-gradient(1000px 560px at 50% -12%,rgba(189,150,86,.16),transparent 60%),linear-gradient(180deg,var(--green-950),var(--green-900) 70%,var(--green-800))}
+.partner .bg-word{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);font-family:var(--font-serif);font-style:italic;font-size:clamp(150px,24vw,340px);color:rgba(230,211,172,.05);line-height:1;pointer-events:none;user-select:none;white-space:nowrap}
+.partner .p-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(230,211,172,.18);pointer-events:none}
+.partner .p-ring.a{width:440px;height:440px;top:-170px;right:-130px;animation:drift 16s ease-in-out infinite alternate}
+.partner .p-ring.b{width:280px;height:280px;bottom:-120px;left:-90px;border-color:rgba(230,211,172,.1);animation:drift 20s ease-in-out infinite alternate-reverse}
+.partner-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:1120px;margin:0 auto}
+.partner-card{display:flex;align-items:center;gap:24px;border:1px solid rgba(230,211,172,.16);border-radius:20px;padding:34px 34px 34px 40px;position:relative;overflow:hidden;text-decoration:none;color:inherit;
+  background:linear-gradient(180deg,#fff,#FBFAF5);box-shadow:0 24px 60px rgba(0,0,0,.34);
+  transition:transform .35s var(--ease),box-shadow .35s,border-color .35s}
 a.partner-card{cursor:pointer}
-a.partner-card .ext{position:absolute;top:14px;right:16px;font-size:10px;font-weight:900;letter-spacing:.06em;color:var(--gold-deep);display:flex;align-items:center;gap:4px;opacity:.7;transition:opacity .25s}
+.partner-card::before{content:"";position:absolute;top:0;left:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--gold-light),var(--gold),var(--gold-deep))}
+.partner-card::after{content:"";position:absolute;inset:0;border-radius:20px;border:1.5px solid rgba(189,150,86,0);transition:border-color .35s;pointer-events:none}
+.partner-card:hover{transform:translateY(-7px);box-shadow:0 36px 80px rgba(0,0,0,.48);border-color:rgba(230,211,172,.42)}
+.partner-card:hover::after{border-color:rgba(189,150,86,.5)}
+a.partner-card .ext{position:absolute;top:16px;right:18px;font-size:10px;font-weight:900;letter-spacing:.06em;color:var(--gold-deep);display:flex;align-items:center;gap:4px;opacity:.75;transition:opacity .25s}
 a.partner-card:hover .ext{opacity:1}
-@media(max-width:760px){.partner-grid{grid-template-columns:1fr}}
-.partner-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
-.partner-card::before{content:"";position:absolute;top:0;left:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--gold),var(--gold-light))}
-.sq-lockup{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.sq-lockup svg{width:48px;height:48px}
-.sq-lockup .sq-word{font-weight:900;font-size:25px;color:#000;letter-spacing:-.01em;font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif}
-.sp-lockup{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.sq-lockup,.sp-lockup{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.sq-lockup svg{width:52px;height:52px}
+.sq-lockup .sq-word{font-weight:900;font-size:27px;color:#000;letter-spacing:-.01em;font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif}
 .sp-lockup svg{width:48px;height:48px}
-.sp-lockup svg.sportip-logo{width:160px;height:auto}
-.sp-lockup .sp-word{font-weight:900;font-size:23px;color:#0E1B3A;letter-spacing:-.01em;font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif}
-.sp-lockup .sp-word b{color:#2D7FF0;font-weight:900}
-.partner-body h3{font-size:17.5px;font-weight:900;color:var(--green-950);display:flex;align-items:center;gap:10px;flex-wrap:wrap;line-height:1.5}
-.partner-badge{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--gold-deep);border:1px solid var(--gold);border-radius:999px;padding:3px 12px}
-.partner-body p{font-size:13.5px;color:var(--muted);margin-top:8px}
+.sp-lockup svg.sportip-logo{width:174px;height:auto}
+.partner-body h3{font-size:18.5px;font-weight:900;color:var(--green-950);display:flex;align-items:center;gap:10px;flex-wrap:wrap;line-height:1.5}
+.partner-badge{font-size:10px;font-weight:900;letter-spacing:.1em;color:#fff;background:linear-gradient(135deg,#CCA869,var(--gold-deep));border:none;border-radius:999px;padding:4px 13px;box-shadow:0 4px 10px rgba(169,129,64,.4)}
+.partner-body p{font-size:13.5px;color:var(--muted);margin-top:9px}
 .partner-body p b{color:var(--green-950)}
+.partner-note{position:relative;text-align:center;margin-top:32px;font-size:12px;color:#9FB8AC;letter-spacing:.04em}
+@media(max-width:760px){.partner-grid{grid-template-columns:1fr}}
 @media(max-width:680px){.partner-card{flex-direction:column;align-items:flex-start;gap:16px}}
 
 /* ===== Flow ===== */
@@ -601,6 +617,8 @@ a.partner-card:hover .ext{opacity:1}
   .hero-grid{grid-template-columns:1fr;gap:44px}
   .reason{grid-template-columns:1fr;gap:30px;padding:44px 0}
   .reason:nth-child(even) .reason-visual{order:0}
+  .reason-visual{padding:18px;border-radius:20px}
+  .reason-visual::before{inset:10px}
   .prob-grid,.price-grid{grid-template-columns:1fr}
   .section{padding:68px 0}
   .float-sync{right:0}
@@ -1308,10 +1326,13 @@ a.partner-card:hover .ext{opacity:1}
 
 
 <!-- ============ Partners ============ -->
-<section class="partner" id="partner">
+<section class="partner dark" id="partner">
+  <div class="bg-word" aria-hidden="true">Partners</div>
+  <div class="p-ring a" aria-hidden="true"></div>
+  <div class="p-ring b" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head reveal" style="margin-bottom:36px">
-      <p class="sec-eyebrow"><span class="ring-dot"></span><span>Official Partners</span></p>
+    <div class="sec-head reveal" style="margin-bottom:44px">
+      <p class="sec-eyebrow"><span class="ring-dot" style="border-color:var(--gold-light)"></span><span>Official Partners</span></p>
       <h2 class="sec-title">SalonOne 公式パートナー</h2>
       <p class="sec-lead">提携サービスを、特別な条件で。SalonOneユーザーだけの優遇をご用意しています。</p>
     </div>
@@ -1354,6 +1375,7 @@ a.partner-card:hover .ext{opacity:1}
         </div>
       </a>
     </div>
+    <p class="partner-note">※ 公式パートナー特典の適用条件はお問い合わせ時にご案内します。</p>
   </div>
 </section>
 
