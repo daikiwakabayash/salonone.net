@@ -537,6 +537,35 @@ a.partner-card:hover .ext{opacity:1}
 .footer-bottom{display:flex;flex-wrap:wrap;gap:18px;align-items:center;padding-top:26px;font-size:12px}
 .footer-bottom .copy{margin-left:auto;color:#6F8A7E}
 
+/* ===== Always-on "live" motion (latest-AI feel) ===== */
+/* AI insight fade between looped messages */
+.ai-text{transition:opacity .55s var(--ease)}
+.ai-text.fade{opacity:.18}
+/* sync chips keep pulsing to feel real-time */
+@keyframes chipSync{0%,100%{box-shadow:0 0 0 0 rgba(189,150,86,0)}50%{box-shadow:0 0 0 4px rgba(189,150,86,.2)}}
+.chip.gold.live{animation:chipSync 2.4s ease-in-out infinite}
+.chip.gold.live::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#2BB673;margin-right:5px;vertical-align:1px;animation:pulse 2s infinite}
+/* a live appointment softly glows */
+@keyframes apptLive{0%,100%{box-shadow:0 0 0 0 rgba(43,182,115,0)}50%{box-shadow:0 0 0 3px rgba(43,182,115,.22)}}
+.appt.live{opacity:1;transform:none;animation:apptLive 2.4s ease-in-out infinite}
+/* new bookings popping in / out */
+@keyframes bookIn{0%{opacity:0;transform:scale(.62)}60%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+@keyframes bookOut{to{opacity:0;transform:scale(.8)}}
+.appt.book-in{animation:bookIn .5s var(--ease) forwards}
+.appt.book-out{animation:bookOut .42s var(--ease) forwards}
+/* dashboard bars keep breathing like live data */
+@keyframes barWave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.8)}}
+.bars.in .bar i{transform-origin:bottom;animation:barWave 2.4s ease-in-out 1.4s infinite}
+.bars.in .bar:nth-child(2) i{animation-delay:1.52s}
+.bars.in .bar:nth-child(3) i{animation-delay:1.64s}
+.bars.in .bar:nth-child(4) i{animation-delay:1.76s}
+.bars.in .bar:nth-child(5) i{animation-delay:1.88s}
+.bars.in .bar:nth-child(6) i{animation-delay:2s}
+.bars.in .bar:nth-child(7) i{animation-delay:2.12s}
+/* live ROAS/value shimmer in mini tables */
+@keyframes valuePulse{0%,100%{opacity:1}50%{opacity:.55}}
+.mini-table .gold{animation:valuePulse 2.6s ease-in-out infinite}
+
 /* ===== Reduced motion ===== */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -1547,22 +1576,94 @@ const io2=new IntersectionObserver(es=>{
 },{threshold:.35});
 io2.observe(concept);
 
-// AI typing effect
+// AI typing effect — continuously loops through multiple insights
 let typed=false;
+const AI_MESSAGES=[
+  '新規<mark>124名</mark>は優秀ですが、入会率<mark>8%</mark>が最大のボトルネックです。入会率を<mark>30%</mark>へ改善すれば、現在の新規数のまま月<mark>302万円</mark>を達成見込み（+221万円）。全店平均25%・優良店実績から、カウンセリング改革で実現可能です。来月の事業計画を自動作成しますか？',
+  '客単価<mark>¥81,063</mark>は業界優秀水準。一方でリピート率に伸びしろがあります。回数券の継続提案を強化すれば、月<mark>+87万円</mark>の上積みが見込めます。失客予兆のある<mark>14名</mark>へ自動フォロー配信を組みますか？',
+  '広告ROASは<mark>META 286%</mark>・<mark>チラシ 412%</mark>と好調です。予算を<mark>+15%</mark>再配分すると来月の新規は<mark>+18名</mark>と試算。全店ランキングであなたの店舗は新規数<mark>上位5%</mark>。配分プランを反映しますか？'
+];
 function startTyping(){
   if(typed)return;typed=true;
   const el=document.getElementById('aiType');
   const caret=document.getElementById('aiCaret');
-  const html='新規<mark>124名</mark>は優秀ですが、入会率<mark>8%</mark>が最大のボトルネックです。入会率を<mark>30%</mark>へ改善すれば、現在の新規数のまま月<mark>302万円</mark>を達成見込み（+221万円）。全店平均25%・優良店実績から、カウンセリング改革で実現可能です。来月の事業計画を自動作成しますか？';
-  if(reduced){el.innerHTML=html;caret.style.display='none';return}
-  // tokenize: keep <mark> chunks atomic
-  const tokens=html.split(/(<mark>.*?<\/mark>)/g).flatMap(t=>t.startsWith('<mark>')?[t]:t.split(''));
-  let i=0,out='';
-  (function step(){
-    if(i>=tokens.length){caret.style.display='none';return}
-    out+=tokens[i++];el.innerHTML=out;
-    setTimeout(step,tokens[i-1]&&tokens[i-1].startsWith('<mark>')?120:34);
-  })();
+  if(reduced){el.innerHTML=AI_MESSAGES[0];caret.style.display='none';return}
+  let mi=0;
+  function typeMsg(html,done){
+    const tokens=html.split(/(<mark>.*?<\/mark>)/g).flatMap(t=>t.startsWith('<mark>')?[t]:t.split(''));
+    let i=0,out='';
+    (function step(){
+      if(i>=tokens.length){return done()}
+      out+=tokens[i++];el.innerHTML=out;
+      setTimeout(step,tokens[i-1]&&tokens[i-1].startsWith('<mark>')?110:30);
+    })();
+  }
+  function loop(){
+    el.classList.remove('fade');
+    typeMsg(AI_MESSAGES[mi],()=>{
+      // hold for reading, then fade out and type the next insight
+      setTimeout(()=>{
+        el.classList.add('fade');
+        setTimeout(()=>{mi=(mi+1)%AI_MESSAGES.length;el.innerHTML='';loop();},650);
+      },3000);
+    });
+  }
+  loop();
+}
+
+/* ===== Always-on "live" motion (latest-AI feel) ===== */
+if(!reduced){
+  // Live booking cards popping into empty calendar slots
+  function liveBookings(scope,names,opts){
+    opts=opts||{};
+    const empties=[...scope.querySelectorAll('.cal-cell')].filter(c=>!c.children.length);
+    if(!empties.length)return;
+    let activeCell=null;
+    function cycle(){
+      if(activeCell){
+        const appt=activeCell.firstElementChild;
+        if(appt)appt.classList.add('book-out');
+        const c=activeCell;activeCell=null;
+        setTimeout(()=>{c.innerHTML=''},430);
+        setTimeout(cycle,1400+Math.random()*900);
+        return;
+      }
+      const cell=empties[Math.floor(Math.random()*empties.length)];
+      const nm=names[Math.floor(Math.random()*names.length)];
+      cell.innerHTML=`<div class="appt g book-in">${nm.n}<em>${nm.s}</em>${nm.h?'<span class="tag">H</span>':''}</div>`;
+      activeCell=cell;
+      setTimeout(cycle,2600+Math.random()*1600);
+    }
+    setTimeout(cycle,opts.delay||1800);
+  }
+  const heroMockEl=document.querySelector('.hero-mock');
+  if(heroMockEl)liveBookings(heroMockEl,[
+    {n:'タナカ 様',s:'WEB予約',h:false},{n:'スズキ 様',s:'#231・初回',h:false},
+    {n:'指名予約',s:'LINE経由',h:false},{n:'ワタナベ 様',s:'#188・2回目',h:true}
+  ],{delay:2600});
+  const reasonMock=document.querySelector('#reasons .reason .mini .cal');
+  if(reasonMock&&reasonMock.closest('.mock-window'))
+    liveBookings(reasonMock.closest('.mock-window'),[
+      {n:'イトウ 様',s:'HPB',h:true},{n:'初回カウンセリング',s:'WEB',h:false},
+      {n:'指名予約',s:'LINE',h:false}
+    ],{delay:3200});
+
+  // Mark sync chips & a "live" appointment so they keep pulsing
+  document.querySelectorAll('.app-toolbar .chip.gold').forEach(c=>c.classList.add('live'));
+  const firstAppt=document.querySelector('.hero-mock .appt.g');
+  if(firstAppt)firstAppt.classList.add('live');
+
+  // Hero KPI: keep "本日売上" ticking up to feel real-time
+  setTimeout(()=>{
+    const sales=document.querySelector('.hero-mock .count[data-target="198750"]');
+    if(sales){
+      let v=198750;
+      setInterval(()=>{
+        v+=Math.floor(Math.random()*3)*1500;
+        sales.textContent=v.toLocaleString('ja-JP');
+      },4200);
+    }
+  },3000);
 }
 </script>
 </body>
