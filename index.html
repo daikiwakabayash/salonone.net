@@ -37,7 +37,7 @@ body{font-family:var(--font-jp);color:var(--ink);background:var(--white);line-he
 img{max-width:100%}
 a{color:inherit;text-decoration:none}
 ul{list-style:none}
-.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
 
 /* ===== Scroll progress ===== */
@@ -46,7 +46,7 @@ ul{list-style:none}
 /* ===== Header ===== */
 .header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
 .header.scrolled{border-bottom-color:var(--line);box-shadow:0 2px 16px rgba(11,36,28,.06)}
-.header-inner{display:flex;align-items:center;gap:28px;height:72px;max-width:1240px;margin:0 auto;padding:0 24px}
+.header-inner{display:flex;align-items:center;gap:28px;height:76px;max-width:1440px;margin:0 auto;padding:0 40px}
 .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .brand-mark{width:38px;height:38px}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -92,7 +92,7 @@ ul{list-style:none}
 .orb.o2{width:9px;height:9px;top:64%;left:55%;animation-delay:-2.5s}
 .orb.o3{width:11px;height:11px;top:38%;right:6%;animation-delay:-4s}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
-.hero-grid{display:grid;grid-template-columns:1.02fr 1fr;gap:48px;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1fr 1.12fr;gap:56px;align-items:center}
 [data-stagger]{opacity:0;animation:fadeUp .9s var(--ease) forwards}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--gold-deep);margin-bottom:20px}
@@ -117,7 +117,7 @@ ul{list-style:none}
 .hero-visual{position:relative;perspective:1100px}
 .floaters{display:contents}
 .hero-mock{transform-style:preserve-3d;transition:transform .35s var(--ease);will-change:transform}
-.app{display:grid;grid-template-columns:148px 1fr;min-height:380px;font-size:11px}
+.app{display:grid;grid-template-columns:166px 1fr;min-height:440px;font-size:12px}
 .app-side{background:linear-gradient(180deg,var(--green-950),var(--green-900));color:#CFE0D7;padding:14px 0}
 .app-logo{font-family:var(--font-serif);color:#fff;font-size:15px;padding:0 16px 12px;letter-spacing:.02em}
 .app-logo b{color:var(--gold-light);font-weight:600}
@@ -455,17 +455,50 @@ a.partner-card:hover .ext{opacity:1}
 .step small{display:inline-block;margin-top:12px;font-size:11px;font-weight:700;color:var(--gold-deep);background:#FAF3E5;border-radius:6px;padding:3px 10px}
 
 /* ===== Pricing ===== */
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:980px;margin:0 auto}
-.price{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:38px 30px;text-align:center;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s}
+/* Campaign banner */
+.price-campaign{position:relative;overflow:hidden;max-width:1080px;margin:0 auto 38px;border-radius:18px;padding:24px 36px;display:flex;align-items:center;gap:22px;
+  background:linear-gradient(120deg,var(--green-950),var(--green-800) 55%,#1C5240);color:#fff;
+  border:1.5px solid rgba(230,211,172,.5);box-shadow:0 14px 40px rgba(11,36,28,.22);
+  animation:campGlow 2.6s ease-in-out infinite}
+@keyframes campGlow{0%,100%{box-shadow:0 14px 40px rgba(11,36,28,.22),0 0 0 0 rgba(189,150,86,.0)}50%{box-shadow:0 14px 46px rgba(11,36,28,.28),0 0 0 6px rgba(189,150,86,.14)}}
+.price-campaign::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:campShine 3.4s var(--ease) infinite}
+@keyframes campShine{0%{left:-60%}55%,100%{left:130%}}
+.price-campaign .pc-ribbon{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#E6D3AC,var(--gold-deep));color:var(--green-950);box-shadow:0 6px 18px rgba(169,129,64,.5);animation:campPulse 1.8s ease-in-out infinite}
+@keyframes campPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.price-campaign .pc-ribbon b{font-size:26px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.price-campaign .pc-ribbon small{font-size:10px;font-weight:900;letter-spacing:.08em}
+.price-campaign .pc-body{flex:1;text-align:left}
+.price-campaign .pc-tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--gold-light);border:1px solid rgba(230,211,172,.5);border-radius:999px;padding:4px 13px;margin-bottom:10px}
+.price-campaign .pc-tag .pulse{width:7px;height:7px;border-radius:50%;background:#2BB673;animation:pulse 2s infinite}
+.price-campaign .pc-title{font-size:clamp(18px,2.4vw,26px);font-weight:900;line-height:1.5}
+.price-campaign .pc-title .hl{color:var(--gold-light);position:relative;white-space:nowrap}
+.price-campaign .pc-title .hl::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:30%;background:rgba(230,211,172,.22);z-index:-1}
+.price-campaign .pc-sub{margin-top:8px;font-size:13.5px;color:#CDE0D6}
+.price-campaign .pc-sub s{color:#90A89C;font-weight:700;margin-right:4px}
+.price-campaign .pc-sub b{color:#fff;font-size:1.18em;font-weight:900}
+@media(max-width:680px){.price-campaign{flex-direction:column;text-align:center;padding:24px 22px;gap:16px}.price-campaign .pc-body{text-align:center}}
+
+.price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1180px;margin:0 auto}
+.price{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 24px;text-align:center;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s;display:flex;flex-direction:column}
 .price:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
 .price.em{border:1.5px solid var(--gold);box-shadow:0 8px 30px rgba(189,150,86,.16);position:relative}
-.price.em::before{content:"おすすめ";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:11px;font-weight:900;letter-spacing:.1em;border-radius:999px;padding:4px 16px}
-.price h3{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:14px}
-.price .num{font-size:clamp(30px,3.4vw,40px);font-weight:900;color:var(--green-950);line-height:1.2}
-.price .num small{font-size:14px;font-weight:700;color:var(--muted)}
+.price.em::before{content:"おすすめ";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:11px;font-weight:900;letter-spacing:.1em;border-radius:999px;padding:4px 16px;white-space:nowrap}
+.price.campaign::before{content:"100社限定 半額";background:linear-gradient(135deg,#CCA869,var(--gold-deep));box-shadow:0 4px 12px rgba(169,129,64,.4)}
+.price h3{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-bottom:14px;min-height:2.6em;display:flex;align-items:center;justify-content:center}
+.price .num{font-size:clamp(26px,2.5vw,36px);font-weight:900;color:var(--green-950);line-height:1.2}
+.price .num small{font-size:13px;font-weight:700;color:var(--muted)}
 .price .num .serif{font-family:var(--font-serif);font-style:italic;font-size:.9em;color:var(--gold-deep)}
+.price .num .opt{display:block;font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--gold-deep);margin-bottom:4px}
+.price .camp-line{margin-top:10px;font-size:13px;font-weight:900;color:var(--gold-deep);background:#FAF3E5;border:1px solid #EBD9B4;border-radius:8px;padding:7px 10px;animation:campNote 1.8s ease-in-out infinite}
+.price .camp-line s{color:var(--muted);font-weight:700;margin-right:5px}
+.price .camp-line b{font-size:1.12em}
+@keyframes campNote{0%,100%{background:#FAF3E5}50%{background:#F6E9CC}}
 .price p{margin-top:12px;font-size:12.5px;color:var(--muted)}
+.price p.fill{margin-top:auto;padding-top:12px}
 .price-note{text-align:center;margin-top:24px;font-size:12.5px;color:var(--muted)}
+@media(max-width:960px){.price-grid{grid-template-columns:repeat(2,1fr);max-width:620px}}
+@media(max-width:520px){.price-grid{grid-template-columns:1fr;max-width:420px}.price h3{min-height:0}}
 
 /* ===== FAQ ===== */
 .faq{max-width:820px;margin:0 auto;display:grid;gap:12px}
@@ -503,6 +536,35 @@ a.partner-card:hover .ext{opacity:1}
 .footer a:hover{color:#fff}
 .footer-bottom{display:flex;flex-wrap:wrap;gap:18px;align-items:center;padding-top:26px;font-size:12px}
 .footer-bottom .copy{margin-left:auto;color:#6F8A7E}
+
+/* ===== Always-on "live" motion (latest-AI feel) ===== */
+/* AI insight fade between looped messages */
+.ai-text{transition:opacity .55s var(--ease)}
+.ai-text.fade{opacity:.18}
+/* sync chips keep pulsing to feel real-time */
+@keyframes chipSync{0%,100%{box-shadow:0 0 0 0 rgba(189,150,86,0)}50%{box-shadow:0 0 0 4px rgba(189,150,86,.2)}}
+.chip.gold.live{animation:chipSync 2.4s ease-in-out infinite}
+.chip.gold.live::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#2BB673;margin-right:5px;vertical-align:1px;animation:pulse 2s infinite}
+/* a live appointment softly glows */
+@keyframes apptLive{0%,100%{box-shadow:0 0 0 0 rgba(43,182,115,0)}50%{box-shadow:0 0 0 3px rgba(43,182,115,.22)}}
+.appt.live{opacity:1;transform:none;animation:apptLive 2.4s ease-in-out infinite}
+/* new bookings popping in / out */
+@keyframes bookIn{0%{opacity:0;transform:scale(.62)}60%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+@keyframes bookOut{to{opacity:0;transform:scale(.8)}}
+.appt.book-in{animation:bookIn .5s var(--ease) forwards}
+.appt.book-out{animation:bookOut .42s var(--ease) forwards}
+/* dashboard bars keep breathing like live data */
+@keyframes barWave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.8)}}
+.bars.in .bar i{transform-origin:bottom;animation:barWave 2.4s ease-in-out 1.4s infinite}
+.bars.in .bar:nth-child(2) i{animation-delay:1.52s}
+.bars.in .bar:nth-child(3) i{animation-delay:1.64s}
+.bars.in .bar:nth-child(4) i{animation-delay:1.76s}
+.bars.in .bar:nth-child(5) i{animation-delay:1.88s}
+.bars.in .bar:nth-child(6) i{animation-delay:2s}
+.bars.in .bar:nth-child(7) i{animation-delay:2.12s}
+/* live ROAS/value shimmer in mini tables */
+@keyframes valuePulse{0%,100%{opacity:1}50%{opacity:.55}}
+.mini-table .gold{animation:valuePulse 2.6s ease-in-out infinite}
 
 /* ===== Reduced motion ===== */
 @media(prefers-reduced-motion:reduce){
@@ -544,14 +606,27 @@ a.partner-card:hover .ext{opacity:1}
   .float-sync{right:0}
   .float-line{left:0}
   .float-ai{display:none}
-  .app{grid-template-columns:1fr}
-  .app-side{display:flex;align-items:center;gap:4px;padding:10px 12px;overflow-x:auto}
+  /* 予約サイト画面モック：モバイルでも崩れず読みやすく */
+  .hero-visual{width:100%}
+  .mock-window.hero-mock{max-width:520px;margin:0 auto}
+  .app{grid-template-columns:1fr;min-height:0;font-size:12px}
+  .app-side{display:flex;align-items:center;gap:4px;padding:10px 12px;overflow-x:auto;scrollbar-width:none}
+  .app-side::-webkit-scrollbar{display:none}
   .app-logo{padding:0 10px 0 4px;flex-shrink:0}
   .side-label{display:none}
   .side-item{flex-shrink:0;border-radius:8px;padding:6px 10px}
   .side-item.on{border-left:none;background:rgba(255,255,255,.14);padding-left:10px}
-  .cal-head,.cal-row{grid-template-columns:70px repeat(3,1fr)}
+  .app-main{padding:14px 14px}
+  .cal{overflow:hidden}
+  .cal-head,.cal-row{grid-template-columns:60px repeat(3,1fr)}
   .cal-head div:nth-child(n+5),.cal-cell:nth-child(n+5){display:none}
+  .cal-head div,.cal-staff{font-size:10px}
+  .cal-staff small{font-size:9px}
+  .appt{font-size:9.5px;padding:5px 6px}
+  .appt.g em{font-size:8.5px}
+  .appt .tag{font-size:8px}
+  .app-kpis{gap:7px}
+  .kpi b{font-size:15px}
   .karte{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
 }
@@ -693,7 +768,7 @@ a.partner-card:hover .ext{opacity:1}
       <a href="#faq">FAQ</a>
     </nav>
     <div class="header-cta">
-      <a class="btn btn-sm btn-ghost" href="#contact">デモを見る</a>
+      <a class="btn btn-sm btn-ghost" href="https://salonone.net/" target="_blank" rel="noopener">デモを見る</a>
       <a class="btn btn-sm btn-gold" href="#contact">資料ダウンロード</a>
     </div>
     <button class="menu-btn" id="menuBtn" aria-label="メニューを開く" aria-expanded="false">
@@ -711,7 +786,7 @@ a.partner-card:hover .ext{opacity:1}
   <a href="#faq">FAQ</a>
   <div class="m-ctas">
     <a class="btn btn-lg btn-gold" href="#contact">資料ダウンロード</a>
-    <a class="btn btn-lg btn-outline-white" href="#contact">デモを見る</a>
+    <a class="btn btn-lg btn-outline-white" href="https://salonone.net/" target="_blank" rel="noopener">デモを見る</a>
   </div>
 </nav>
 
@@ -740,7 +815,7 @@ a.partner-card:hover .ext{opacity:1}
         </div>
         <div class="hero-ctas" data-stagger style="animation-delay:.6s">
           <a class="btn btn-lg btn-gold" href="#contact">資料ダウンロード(無料)</a>
-          <a class="btn btn-lg btn-ghost" href="#contact">デモ画面を見る</a>
+          <a class="btn btn-lg btn-ghost" href="https://salonone.net/" target="_blank" rel="noopener">デモ画面を見る</a>
         </div>
         <p class="hero-note" data-stagger style="animation-delay:.72s">導入のご相談・お見積りは無料です。オンラインでのご案内も承ります。</p>
       </div>
@@ -1289,24 +1364,38 @@ a.partner-card:hover .ext{opacity:1}
       <p class="sec-eyebrow"><span class="ring-dot"></span><span>Pricing</span></p>
       <h2 class="sec-title">店舗規模に合わせた、シンプルな料金体系。</h2>
     </div>
-    <div class="price-grid stagger reveal">
-      <div class="price">
-        <h3>初期費用</h3>
-        <p class="num"><span class="serif">¥</span>0<small>円〜</small></p>
-        <p>初期設定・データ移行サポートを含むスタートプランをご用意。</p>
-      </div>
-      <div class="price em">
-        <h3>月額費用</h3>
-        <p class="num">1店舗<small>ごとの</small><br>定額制</p>
-        <p>店舗数・ご利用機能に応じたプランをご提案。詳細はお問い合わせください。</p>
-      </div>
-      <div class="price">
-        <h3>サポート</h3>
-        <p class="num"><span class="serif">¥</span>0<small>円</small></p>
-        <p>チャットサポート・操作レクチャー・活用支援は追加費用なし。</p>
+    <div class="price-campaign reveal" role="note" aria-label="初期費用半額キャンペーン">
+      <div class="pc-ribbon"><b>50%</b><small>OFF</small></div>
+      <div class="pc-body">
+        <span class="pc-tag"><span class="pulse"></span>期間限定キャンペーン</span>
+        <p class="pc-title">先着<b>100社</b>限定 — <span class="hl">初期費用が半額</span>キャンペーン中！</p>
+        <p class="pc-sub">いまなら初期費用 <s>¥50,000</s> → <b>¥25,000</b>（1店舗あたり）。この機会をお見逃しなく。</p>
       </div>
     </div>
-    <p class="price-note">※ 価格・プランの詳細は資料にてご案内しています。多店舗・FC本部向けプランもございます。</p>
+    <div class="price-grid stagger reveal">
+      <div class="price em campaign">
+        <h3>初期費用</h3>
+        <p class="num"><span class="serif">¥</span>50,000<small>/1店舗</small></p>
+        <p class="camp-line"><s>¥50,000</s>→ <b>¥25,000</b><br>100社限定 半額キャンペーン中</p>
+        <p class="fill">初期設定・データ移行サポート込み。</p>
+      </div>
+      <div class="price">
+        <h3>月額費用</h3>
+        <p class="num"><span class="serif">¥</span>5,000<small>/店舗・月</small></p>
+        <p class="fill">予約・カルテ・売上管理など基本機能が使い放題。</p>
+      </div>
+      <div class="price">
+        <h3>HPB連携・公式LINE連携<br>（オプション）</h3>
+        <p class="num"><span class="opt">オプション</span><span class="serif">¥</span>5,000<small>/月</small></p>
+        <p class="fill">HOT PEPPER Beauty 自動連携・LINE公式アカウント連携。</p>
+      </div>
+      <div class="price">
+        <h3>マーケティング代行</h3>
+        <p class="num"><span class="serif">¥</span>30,000<small>〜/月</small></p>
+        <p class="fill">広告運用・媒体分析・集客施策をプロが代行。</p>
+      </div>
+    </div>
+    <p class="price-note">※ 表示は税抜価格です。多店舗・FC本部向けプランは別途お見積りいたします。</p>
     <div class="cta-btns reveal" style="margin-top:34px">
       <a class="btn btn-lg btn-gold" href="#contact">料金表をダウンロード</a>
     </div>
@@ -1487,22 +1576,94 @@ const io2=new IntersectionObserver(es=>{
 },{threshold:.35});
 io2.observe(concept);
 
-// AI typing effect
+// AI typing effect — continuously loops through multiple insights
 let typed=false;
+const AI_MESSAGES=[
+  '新規<mark>124名</mark>は優秀ですが、入会率<mark>8%</mark>が最大のボトルネックです。入会率を<mark>30%</mark>へ改善すれば、現在の新規数のまま月<mark>302万円</mark>を達成見込み（+221万円）。全店平均25%・優良店実績から、カウンセリング改革で実現可能です。来月の事業計画を自動作成しますか？',
+  '客単価<mark>¥81,063</mark>は業界優秀水準。一方でリピート率に伸びしろがあります。回数券の継続提案を強化すれば、月<mark>+87万円</mark>の上積みが見込めます。失客予兆のある<mark>14名</mark>へ自動フォロー配信を組みますか？',
+  '広告ROASは<mark>META 286%</mark>・<mark>チラシ 412%</mark>と好調です。予算を<mark>+15%</mark>再配分すると来月の新規は<mark>+18名</mark>と試算。全店ランキングであなたの店舗は新規数<mark>上位5%</mark>。配分プランを反映しますか？'
+];
 function startTyping(){
   if(typed)return;typed=true;
   const el=document.getElementById('aiType');
   const caret=document.getElementById('aiCaret');
-  const html='新規<mark>124名</mark>は優秀ですが、入会率<mark>8%</mark>が最大のボトルネックです。入会率を<mark>30%</mark>へ改善すれば、現在の新規数のまま月<mark>302万円</mark>を達成見込み（+221万円）。全店平均25%・優良店実績から、カウンセリング改革で実現可能です。来月の事業計画を自動作成しますか？';
-  if(reduced){el.innerHTML=html;caret.style.display='none';return}
-  // tokenize: keep <mark> chunks atomic
-  const tokens=html.split(/(<mark>.*?<\/mark>)/g).flatMap(t=>t.startsWith('<mark>')?[t]:t.split(''));
-  let i=0,out='';
-  (function step(){
-    if(i>=tokens.length){caret.style.display='none';return}
-    out+=tokens[i++];el.innerHTML=out;
-    setTimeout(step,tokens[i-1]&&tokens[i-1].startsWith('<mark>')?120:34);
-  })();
+  if(reduced){el.innerHTML=AI_MESSAGES[0];caret.style.display='none';return}
+  let mi=0;
+  function typeMsg(html,done){
+    const tokens=html.split(/(<mark>.*?<\/mark>)/g).flatMap(t=>t.startsWith('<mark>')?[t]:t.split(''));
+    let i=0,out='';
+    (function step(){
+      if(i>=tokens.length){return done()}
+      out+=tokens[i++];el.innerHTML=out;
+      setTimeout(step,tokens[i-1]&&tokens[i-1].startsWith('<mark>')?110:30);
+    })();
+  }
+  function loop(){
+    el.classList.remove('fade');
+    typeMsg(AI_MESSAGES[mi],()=>{
+      // hold for reading, then fade out and type the next insight
+      setTimeout(()=>{
+        el.classList.add('fade');
+        setTimeout(()=>{mi=(mi+1)%AI_MESSAGES.length;el.innerHTML='';loop();},650);
+      },3000);
+    });
+  }
+  loop();
+}
+
+/* ===== Always-on "live" motion (latest-AI feel) ===== */
+if(!reduced){
+  // Live booking cards popping into empty calendar slots
+  function liveBookings(scope,names,opts){
+    opts=opts||{};
+    const empties=[...scope.querySelectorAll('.cal-cell')].filter(c=>!c.children.length);
+    if(!empties.length)return;
+    let activeCell=null;
+    function cycle(){
+      if(activeCell){
+        const appt=activeCell.firstElementChild;
+        if(appt)appt.classList.add('book-out');
+        const c=activeCell;activeCell=null;
+        setTimeout(()=>{c.innerHTML=''},430);
+        setTimeout(cycle,1400+Math.random()*900);
+        return;
+      }
+      const cell=empties[Math.floor(Math.random()*empties.length)];
+      const nm=names[Math.floor(Math.random()*names.length)];
+      cell.innerHTML=`<div class="appt g book-in">${nm.n}<em>${nm.s}</em>${nm.h?'<span class="tag">H</span>':''}</div>`;
+      activeCell=cell;
+      setTimeout(cycle,2600+Math.random()*1600);
+    }
+    setTimeout(cycle,opts.delay||1800);
+  }
+  const heroMockEl=document.querySelector('.hero-mock');
+  if(heroMockEl)liveBookings(heroMockEl,[
+    {n:'タナカ 様',s:'WEB予約',h:false},{n:'スズキ 様',s:'#231・初回',h:false},
+    {n:'指名予約',s:'LINE経由',h:false},{n:'ワタナベ 様',s:'#188・2回目',h:true}
+  ],{delay:2600});
+  const reasonMock=document.querySelector('#reasons .reason .mini .cal');
+  if(reasonMock&&reasonMock.closest('.mock-window'))
+    liveBookings(reasonMock.closest('.mock-window'),[
+      {n:'イトウ 様',s:'HPB',h:true},{n:'初回カウンセリング',s:'WEB',h:false},
+      {n:'指名予約',s:'LINE',h:false}
+    ],{delay:3200});
+
+  // Mark sync chips & a "live" appointment so they keep pulsing
+  document.querySelectorAll('.app-toolbar .chip.gold').forEach(c=>c.classList.add('live'));
+  const firstAppt=document.querySelector('.hero-mock .appt.g');
+  if(firstAppt)firstAppt.classList.add('live');
+
+  // Hero KPI: keep "本日売上" ticking up to feel real-time
+  setTimeout(()=>{
+    const sales=document.querySelector('.hero-mock .count[data-target="198750"]');
+    if(sales){
+      let v=198750;
+      setInterval(()=>{
+        v+=Math.floor(Math.random()*3)*1500;
+        sales.textContent=v.toLocaleString('ja-JP');
+      },4200);
+    }
+  },3000);
 }
 </script>
 </body>
