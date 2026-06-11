@@ -84,7 +84,9 @@ ul{list-style:none}
 /* ===== Hero as uploaded first-view image ===== */
 .hero.hero-shot{position:relative;padding:0;line-height:0;background:#0B241C;overflow:hidden}
 .hero-shot-pic{display:block;width:100%}
-.hero-shot-pic img{display:block;width:100%;height:auto}
+/* reserve correct space before the image loads to prevent layout shift */
+.hero-shot-pic img{display:block;width:100%;height:auto;aspect-ratio:1695/928}
+@media(max-width:760px){.hero-shot-pic img{aspect-ratio:863/1822}}
 /* transparent clickable hotspots over the buttons baked into the image */
 .fv-hot{position:absolute;inset:0;z-index:5;pointer-events:none}
 .fv-hot .hot{position:absolute;display:none;pointer-events:auto;background:transparent;border:0;padding:0;margin:0;cursor:pointer;border-radius:14px;-webkit-tap-highlight-color:rgba(189,150,86,.18)}
@@ -1506,6 +1508,12 @@ a.partner-card:hover .ext{opacity:1}
 
 <script>
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Always open at the top: disable the browser's scroll restoration so a reload
+// never lands mid-page / at the bottom (e.g. due to the hero image loading late).
+if('scrollRestoration' in history){history.scrollRestoration='manual';}
+if(!location.hash){window.scrollTo(0,0);}
+addEventListener('load',()=>{if(!location.hash)window.scrollTo(0,0);});
 
 // Scroll progress + reveal header after the first-view image
 const header=document.getElementById('header');
