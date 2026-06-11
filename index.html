@@ -44,18 +44,11 @@ ul{list-style:none}
 .progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-light));z-index:200;transition:width .1s linear}
 
 /* ===== Header ===== */
-.header{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s,box-shadow .35s,backdrop-filter .35s}
-.header.scrolled{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:var(--line);box-shadow:0 2px 16px rgba(11,36,28,.06)}
-/* transparent overlay state on the hero image (light text) */
-.header:not(.scrolled) .brand-name{color:#fff}
-.header:not(.scrolled) .brand-name b{color:var(--gold-light)}
-.header:not(.scrolled) .brand-mark text:first-of-type{fill:#fff}
-.header:not(.scrolled) .gnav a{color:rgba(255,255,255,.9)}
-.header:not(.scrolled) .gnav a:hover{background:rgba(255,255,255,.14);color:#fff}
-.header:not(.scrolled) .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
-.header:not(.scrolled) .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff}
-.header:not(.scrolled) .menu-btn span{background:#fff}
-.menu-btn.open span{background:#fff}
+/* Header is hidden over the first-view image (the image has its own header),
+   and slides in as a solid white bar once you scroll past the hero. */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 2px 16px rgba(11,36,28,.06);transform:translateY(-100%);transition:transform .4s var(--ease)}
+.header.shown{transform:none}
+.menu-btn.open span{background:var(--green-900)}
 .header-inner{display:flex;align-items:center;gap:32px;height:78px;max-width:1680px;margin:0 auto;padding:0 48px}
 .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .brand-mark{width:38px;height:38px}
@@ -89,12 +82,26 @@ ul{list-style:none}
 .mobile-nav{display:none}
 
 /* ===== Hero as uploaded first-view image ===== */
-.hero-shot{position:relative;padding:0;line-height:0;background:#0B241C;overflow:hidden}
-.hero-shot-link{display:block;text-decoration:none}
+.hero.hero-shot{position:relative;padding:0;line-height:0;background:#0B241C;overflow:hidden}
 .hero-shot-pic{display:block;width:100%}
 .hero-shot-pic img{display:block;width:100%;height:auto}
-/* subtle dark scrim at the very top so the transparent header stays legible */
-.hero-shot::before{content:"";position:absolute;top:0;left:0;right:0;height:140px;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(8,24,18,.55),transparent)}
+/* transparent clickable hotspots over the buttons baked into the image */
+.fv-hot{position:absolute;inset:0;z-index:5;pointer-events:none}
+.fv-hot .hot{position:absolute;display:none;pointer-events:auto;background:transparent;border:0;padding:0;margin:0;cursor:pointer;border-radius:14px;-webkit-tap-highlight-color:rgba(189,150,86,.18)}
+.fv-hot .hot:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+/* PC image hotspots */
+.hot-pc-logo{left:1.5%;top:2%;width:15%;height:7%}
+.hot-pc-doc{left:3%;top:67%;width:28%;height:11%}
+.hot-pc-demo{left:36%;top:67%;width:25%;height:11%}
+@media(min-width:761px){.hot-pc-logo,.hot-pc-doc,.hot-pc-demo{display:block}}
+/* Mobile image hotspots */
+@media(max-width:760px){
+  .hot-m-logo{display:block;left:2%;top:.5%;width:33%;height:6%}
+  .hot-m-doctop{display:block;left:46%;top:1.4%;width:42%;height:5%}
+  .hot-m-menu{display:block;left:86%;top:1%;width:12%;height:6%}
+  .hot-m-doc{display:block;left:3%;top:39%;width:46%;height:7%}
+  .hot-m-demo{display:block;left:52%;top:39%;width:44%;height:7%}
+}
 
 /* ===== Hero ===== */
 .hero{position:relative;padding:160px 0 100px;background:
@@ -837,15 +844,27 @@ a.partner-card:hover .ext{opacity:1}
        assets/hero-pc.png      … PC・タブレット用（横長）
        assets/hero-mobile.png  … スマホ用（縦長）
        上記2ファイルを同名で上書きするだけで反映されます（assets/README.md 参照）。
-       透過ヘッダーが上に重なるため、画像上部はロゴ等を避けると綺麗に組み合わさります。 -->
+     ▼ 画像内ボタンの「当たり判定（リンク）」位置調整 ▼
+       画像のボタン位置に合わせて、下の .hot-xx の left/top/width/height(%) を微調整してください。 -->
 <section class="hero hero-shot">
-  <a class="hero-shot-link" href="#contact" aria-label="資料ダウンロード・お問い合わせへ">
-    <picture class="hero-shot-pic">
-      <source media="(max-width:760px)" srcset="assets/hero-mobile.png">
-      <img src="assets/hero-pc.png" fetchpriority="high"
-           alt="SalonOne — サロン経営を、もっとスマートに。すべてを、これ一つで。予約・カルテ・LINE・売上・労務・AI分析までを一元化するサロン経営プラットフォーム。">
-    </picture>
-  </a>
+  <picture class="hero-shot-pic">
+    <source media="(max-width:760px)" srcset="assets/hero-mobile.png">
+    <img src="assets/hero-pc.png" fetchpriority="high"
+         alt="SalonOne — サロン経営を、もっとスマートに。すべてを、これ一つで。予約・カルテ・LINE・売上・労務・AI分析までを一元化するサロン経営プラットフォーム。">
+  </picture>
+  <!-- 画像上のボタンに重ねる実機能リンク（透明） -->
+  <nav class="fv-hot" aria-label="ファーストビューの操作">
+    <!-- PC用 -->
+    <a class="hot hot-pc-logo" href="#top" aria-label="トップへ"></a>
+    <a class="hot hot-pc-doc" href="#contact" aria-label="資料ダウンロード（無料）"></a>
+    <a class="hot hot-pc-demo" href="https://salonone.net/" target="_blank" rel="noopener" aria-label="デモ画面を見る"></a>
+    <!-- モバイル用 -->
+    <a class="hot hot-m-logo" href="#top" aria-label="トップへ"></a>
+    <a class="hot hot-m-doctop" href="#contact" aria-label="資料ダウンロード（無料）"></a>
+    <button type="button" class="hot hot-m-menu" id="fvMenu" aria-label="メニューを開く"></button>
+    <a class="hot hot-m-doc" href="#contact" aria-label="資料ダウンロード（無料）"></a>
+    <a class="hot hot-m-demo" href="https://salonone.net/" target="_blank" rel="noopener" aria-label="デモ画面を見る"></a>
+  </nav>
 </section>
 
 <!-- ============ Concept ============ -->
@@ -1469,24 +1488,36 @@ a.partner-card:hover .ext{opacity:1}
 <script>
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Scroll progress + header shadow
+// Scroll progress + reveal header after the first-view image
 const header=document.getElementById('header');
 const progress=document.getElementById('progress');
+const heroShot=document.querySelector('.hero-shot');
+function headerReveal(){
+  const trigger=heroShot?Math.max(heroShot.offsetHeight-72,80):10;
+  header.classList.toggle('shown',scrollY>trigger);
+}
 addEventListener('scroll',()=>{
-  header.classList.toggle('scrolled',scrollY>10);
+  headerReveal();
   const h=document.documentElement.scrollHeight-innerHeight;
   progress.style.width=(h>0?(scrollY/h)*100:0)+'%';
 },{passive:true});
+addEventListener('resize',headerReveal,{passive:true});
+headerReveal();
 
 // Mobile menu
 const menuBtn=document.getElementById('menuBtn');
 const mobileNav=document.getElementById('mobileNav');
-menuBtn.addEventListener('click',()=>{
-  const open=mobileNav.classList.toggle('open');
+function toggleMenu(force){
+  const open=(force===undefined)?!mobileNav.classList.contains('open'):force;
+  mobileNav.classList.toggle('open',open);
   menuBtn.classList.toggle('open',open);
   menuBtn.setAttribute('aria-expanded',open);
   document.body.style.overflow=open?'hidden':'';
-});
+}
+menuBtn.addEventListener('click',()=>toggleMenu());
+// first-view hamburger (overlaid on the hero image) opens the same menu
+const fvMenu=document.getElementById('fvMenu');
+if(fvMenu)fvMenu.addEventListener('click',()=>toggleMenu(true));
 mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   mobileNav.classList.remove('open');menuBtn.classList.remove('open');
   menuBtn.setAttribute('aria-expanded','false');document.body.style.overflow='';
