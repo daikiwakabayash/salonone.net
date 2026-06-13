@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* Always open at the very top on load/reload. This runs as early as possible
+   (before first paint and before any browser scroll restoration) so the page
+   never appears at the bottom after a reload — on PC, mobile and in-app browsers. */
+(function(){
+  if('scrollRestoration' in history){history.scrollRestoration='manual';}
+  var atTop=function(){window.scrollTo(0,0);};
+  // Save "top" as the position to restore to. iOS / in-app browsers that ignore
+  // manual restoration will then restore to the top instead of the bottom.
+  addEventListener('pagehide',atTop);
+  addEventListener('beforeunload',atTop);
+})();
+</script>
 <title>SalonOne(サロンワン)| これ一つで、サロン経営のすべてを。</title>
 <meta name="description" content="SalonOneは予約・カルテ・LINE・売上・労務・AI分析までサロン経営に必要なすべてを一元化するサロン経営プラットフォーム。HOT PEPPER Beauty自動連携対応。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1509,11 +1522,10 @@ a.partner-card:hover .ext{opacity:1}
 <script>
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Always open at the top: disable the browser's scroll restoration and keep the
-// page pinned to the top until the user actually scrolls. This defeats iOS / in-app
-// browser scroll restoration and any late reflow from the tall first-view image,
-// which could otherwise leave the page scrolled to the bottom on load/reload.
-if('scrollRestoration' in history){history.scrollRestoration='manual';}
+// Always open at the top. Manual scroll restoration + pagehide/beforeunload reset
+// are handled by the early <head> script; here we keep the page pinned to the top
+// through load and any late reflow (e.g. the tall first-view image) until the user
+// actually scrolls. Scrolls are instant ('auto' would inherit scroll-behavior:smooth).
 (function pinTop(){
   if(location.hash)return; // honour deep links like #pricing
   let userScrolled=false;
@@ -1521,7 +1533,7 @@ if('scrollRestoration' in history){history.scrollRestoration='manual';}
   addEventListener('wheel',markScrolled,{passive:true,once:true});
   addEventListener('touchmove',markScrolled,{passive:true,once:true});
   addEventListener('keydown',e=>{if(['ArrowDown','ArrowUp','PageDown','PageUp','End','Home',' '].includes(e.key))userScrolled=true;},{once:true});
-  const top=()=>{if(!userScrolled)window.scrollTo(0,0);};
+  const top=()=>{if(!userScrolled)window.scrollTo({top:0,left:0,behavior:'instant'});};
   top();
   addEventListener('DOMContentLoaded',top);
   addEventListener('load',()=>{top();[60,150,300,600,1000].forEach(t=>setTimeout(top,t));});
